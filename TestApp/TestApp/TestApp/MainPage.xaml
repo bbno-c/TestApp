@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TestApp.MainPage">
+
+    <StackLayout>
+        <StackLayout Orientation="Vertical">
+            <Entry x:Name="Entry1" Placeholder="192.168.4.140:8000"></Entry>
+            <Editor x:Name="Entry2" Placeholder="" AutoSize="TextChanges"></Editor>
+        </StackLayout>
+        <Button Text="Send" Clicked="BtnSend_Clicked"></Button>
+        <WebView x:Name="WebView1" VerticalOptions="FillAndExpand"></WebView>
+    </StackLayout>
+
+</ContentPage>
