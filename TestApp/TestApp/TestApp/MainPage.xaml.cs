@@ -8,7 +8,9 @@ using Xamarin.Forms.PlatformConfiguration;
 using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
 using HtmlAgilityPack;
 using System.IO;
-
+using System.Text;
+using System.Web;
+using System.Net;
 
 namespace TestApp
 {
@@ -77,12 +79,6 @@ namespace TestApp
 
             string jsonString = JsonConvert.SerializeObject(a, Formatting.Indented);
 
-            //jsonString = @"{
-            //""game_id"":""cc12"",
-            //""platform_version"":""ios/android/amazon"",
-            //""game_version"":""freemium/free2play""
-            //}";
-
             Entry1.Text = "192.168.4.140:8000";
             Entry2.Text = jsonString;
         }
@@ -91,25 +87,19 @@ namespace TestApp
         {
             string inputJsonString = Entry2.Text;
             var inputJson = JsonConvert.DeserializeObject<PropertiesJson>(inputJsonString);
+            string encoded = WebUtility.UrlEncode(inputJsonString);
 
-            //Dictionary<string, string> dict = JsonConvert.DeserializeObject<Dictionary<string, string>>(inputJsonString);
-
-            //FormUrlEncodedContent form = new FormUrlEncodedContent(dict);
-
-            HttpContent content = new StringContent(inputJsonString);
+            //HttpContent content = new StringContent(encoded, Encoding.UTF8, "application/json");
             HttpRequestMessage request = new()
             {
-                //RequestUri = new Uri("https://moregamesdmg.com/public/index.php"),
-                RequestUri = new Uri("http://" + Entry1.Text + "/external/get-slider"),
+                RequestUri = new Uri("http://" + Entry1.Text + "/external/get-slider?json=" + encoded),
                 Method = HttpMethod.Get,
-                Content = content,
+                //Content = content,
             };
-
-            string ur = request.ToString();
 
             try
             {
-                HttpResponseMessage response = await client.GetAsync(request.ToString());
+                HttpResponseMessage response = await client.SendAsync(request);
                 string result = await response.Content.ReadAsStringAsync();
 
                 HtmlDocument document = new();
@@ -119,8 +109,6 @@ namespace TestApp
                 {
                     inputJson.updated_at = container.Attributes["content"].Value;
                     inputJson.SaveToFile();
-
-                    //await DisplayAlert("", container.Attributes["content"].Value, "X");
                 }
 
                 var htmlSource = new HtmlWebViewSource

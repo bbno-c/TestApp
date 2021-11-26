@@ -9,7 +9,7 @@
             <Editor x:Name="Entry2" Placeholder="" AutoSize="TextChanges"></Editor>
         </StackLayout>
         <Button Text="Apply" Clicked="BtnSend_Clicked"></Button>
-        <WebView x:Name="WebView1" VerticalOptions="Center"></WebView>
+        <WebView x:Name="WebView1" VerticalOptions="FillAndExpand"></WebView>
     </StackLayout>
 
 </ContentPage>
