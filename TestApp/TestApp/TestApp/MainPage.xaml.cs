@@ -9,6 +9,8 @@ using System.Net;
 using System.Net.Http;
 using Newtonsoft;
 using Newtonsoft.Json;
+using Xamarin.Forms.PlatformConfiguration;
+using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
 
 namespace TestApp
 {
@@ -30,6 +32,7 @@ namespace TestApp
         public MainPage()
         {
             InitializeComponent();
+            On<iOS>().SetUseSafeArea(true);
 
             var a = new PropertiesJson
             {
@@ -42,13 +45,13 @@ namespace TestApp
                 installed_games = new string[] { }
             };
 
-            //string jsonString = @"{
-            //""game_id"":""cc12"",
-            //""platform_version"":""ios/android/amazon"",
-            //""game_version"":""freemium/free2play""
-            //}";
+            string jsonString = @"{
+            ""game_id"":""cc12"",
+            ""platform_version"":""ios/android/amazon"",
+            ""game_version"":""freemium/free2play""
+            }";
             
-            string jsonString = JsonConvert.SerializeObject(a,Formatting.Indented);
+            //string jsonString = JsonConvert.SerializeObject(a,Formatting.Indented);
 
             Entry1.Text = "192.168.4.140:8000";
             Entry2.Text = jsonString;
@@ -59,8 +62,8 @@ namespace TestApp
             HttpContent content = new StringContent(Entry2.Text);
 
             HttpRequestMessage request = new HttpRequestMessage();
-            //request.RequestUri = new Uri("https://moregamesdmg.com/public/index.php");
-            request.RequestUri = new Uri("https://" + Entry1.Text + "/external/get-slider");
+            request.RequestUri = new Uri("https://moregamesdmg.com/public/index.php");
+            //request.RequestUri = new Uri("https://" + Entry1.Text + "/external/get-slider");
             request.Method = HttpMethod.Post;
             request.Content = content;
 
