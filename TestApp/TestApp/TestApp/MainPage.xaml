@@ -3,13 +3,30 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="TestApp.MainPage">
 
-    <StackLayout>
-        <StackLayout Orientation="Vertical">
-            <Entry x:Name="Entry1" Placeholder="192.168.4.140:8000"></Entry>
-            <Editor x:Name="Entry2" Placeholder="" AutoSize="TextChanges"></Editor>
-        </StackLayout>
-        <Button Text="Apply" Clicked="BtnSend_Clicked"></Button>
-        <WebView x:Name="WebView1" VerticalOptions="FillAndExpand"></WebView>
-    </StackLayout>
+    <Grid>
+        <StackLayout>
+            <StackLayout Orientation="Vertical">
+                <Entry x:Name="Entry1"></Entry>
+                <Editor x:Name="Entry2" AutoSize="TextChanges"></Editor>
+                <Button Text="Apply" Clicked="BtnSend_Clicked"></Button>
+            </StackLayout>
 
+        </StackLayout>
+
+        <StackLayout InputTransparent="true" CascadeInputTransparent="False">
+            
+            <Frame
+            x:Name="popuplayout"
+            IsVisible="False"
+            VerticalOptions="FillAndExpand" Padding="0">
+                <StackLayout Orientation="Horizontal">
+                    <WebView x:Name="WebView1" HorizontalOptions="FillAndExpand"></WebView>
+                </StackLayout>
+            </Frame>
+
+        </StackLayout>
+
+        <Button x:Name="btnClose" IsVisible="False" Text="X" Clicked="BtnClose_Clicked" WidthRequest="50" HeightRequest="50" HorizontalOptions="Center" VerticalOptions="Start"></Button>
+
+    </Grid>
 </ContentPage>

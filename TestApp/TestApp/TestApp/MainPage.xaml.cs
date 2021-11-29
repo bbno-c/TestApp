@@ -11,6 +11,7 @@ using System.IO;
 using System.Text;
 using System.Web;
 using System.Net;
+using System.Threading.Tasks;
 
 namespace TestApp
 {
@@ -72,13 +73,14 @@ namespace TestApp
         public MainPage()
         {
             InitializeComponent();
+            
             On<iOS>().SetUseSafeArea(true);
 
             var a = new PropertiesJson();
             a.LoadFromFile();
 
             string jsonString = JsonConvert.SerializeObject(a, Formatting.Indented);
-
+            
             Entry1.Text = "192.168.4.140:8000";
             Entry2.Text = jsonString;
         }
@@ -117,11 +119,35 @@ namespace TestApp
                 };
 
                 WebView1.Source = htmlSource;
+                popup();
             }
             catch (Exception ex)
             {
                 await DisplayAlert("Exception", ex.Message, "X");
             }
+        }
+
+        private void popup()
+        {
+            if (!this.popuplayout.IsVisible)
+            {
+                this.popuplayout.IsVisible = !this.popuplayout.IsVisible;
+                this.popuplayout.Scale = 1;
+
+                btnClose.IsVisible = true;
+                
+            }
+            else
+            {
+                this.popuplayout.IsVisible = !this.popuplayout.IsVisible;
+                this.popuplayout.Scale = 0;
+                btnClose.IsVisible = false;
+            }
+        }
+
+        private async void BtnClose_Clicked(object sender, EventArgs e)
+        {
+            popup();
         }
     }
 }
