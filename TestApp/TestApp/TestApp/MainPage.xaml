@@ -7,7 +7,7 @@
         <StackLayout>
             <StackLayout Orientation="Vertical">
                 <Entry x:Name="Entry1"></Entry>
-                <Editor x:Name="Entry2" AutoSize="TextChanges" IsVisible="true"></Editor>
+                <Editor x:Name="Entry2" AutoSize="TextChanges" IsVisible="false"></Editor>
 
                 <Picker Title="Select a platform" x:Name="Picker1"
                         TitleColor="Red"
@@ -18,17 +18,26 @@
 			        </Picker.Items>
 		        </Picker>
 
-            <Button Text="Apply" BackgroundColor="White" Clicked="BtnSend_Clicked"></Button>
+                <Picker Title="Select a payment method" x:Name="Picker2"
+                        TitleColor="Red"
+                        >
+                    <Picker.Items>
+                        <x:String>freemium</x:String>
+                        <x:String>free2play</x:String>
+                    </Picker.Items>
+                </Picker>
+
+                <Button Text="Apply" BackgroundColor="White" TextColor="Green" Clicked="BtnSend_Clicked"></Button>
             </StackLayout>
 
         </StackLayout>
 
-        <StackLayout InputTransparent="true" CascadeInputTransparent="False">
+        <StackLayout InputTransparent="true" CascadeInputTransparent="False" >
             
             <Frame
             x:Name="popuplayout"
             IsVisible="False"
-            VerticalOptions="FillAndExpand" Padding="0">
+            VerticalOptions="FillAndExpand" Padding="0" >
                 <StackLayout Orientation="Horizontal">
                     <WebView x:Name="WebView1" HorizontalOptions="FillAndExpand"></WebView>
                 </StackLayout>
@@ -36,7 +45,7 @@
 
         </StackLayout>
 
-        <Button x:Name="btnClose" BackgroundColor="White" IsVisible="False" Text="X" Clicked="BtnClose_Clicked" WidthRequest="50" HeightRequest="50" HorizontalOptions="Center" VerticalOptions="End"></Button>
+        <Button x:Name="btnClose" BackgroundColor="White" TextColor="Green" IsVisible="False" Text="X" Clicked="BtnClose_Clicked" WidthRequest="50" HeightRequest="50" HorizontalOptions="Center" VerticalOptions="End"></Button>
 
     </Grid>
 </ContentPage>

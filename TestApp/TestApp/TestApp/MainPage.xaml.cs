@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 
 namespace TestApp
 {
+
     public class PropertiesJson
     {
         public string updated_at { get; set; }
@@ -68,19 +69,20 @@ namespace TestApp
 
     public partial class MainPage : ContentPage
     {
+
         private static readonly HttpClient client = new();
 
         public MainPage()
         {
             InitializeComponent();
-            
+
             On<iOS>().SetUseSafeArea(true);
 
             var a = new PropertiesJson();
             a.LoadFromFile();
 
             string jsonString = JsonConvert.SerializeObject(a, Formatting.Indented);
-            
+
             Entry1.Text = "192.168.4.140:8000";
             Entry2.Text = jsonString;
         }
@@ -91,6 +93,7 @@ namespace TestApp
             var inputJson = JsonConvert.DeserializeObject<PropertiesJson>(inputJsonString);
 
             inputJson.platform = Picker1.SelectedItem.ToString();
+            inputJson.payment_model = Picker2.SelectedItem.ToString();
 
             string encoded = WebUtility.UrlEncode(JsonConvert.SerializeObject(inputJson));
 
@@ -138,13 +141,14 @@ namespace TestApp
                 this.popuplayout.Scale = 1;
 
                 btnClose.IsVisible = true;
-                
+                //OnAppearing();
             }
             else
             {
                 this.popuplayout.IsVisible = !this.popuplayout.IsVisible;
                 this.popuplayout.Scale = 0;
                 btnClose.IsVisible = false;
+                //OnDisappearing();
             }
         }
 
@@ -153,6 +157,6 @@ namespace TestApp
             popup();
         }
 
-        
+
     }
 }

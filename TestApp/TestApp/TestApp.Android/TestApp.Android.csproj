@@ -37,6 +37,11 @@
     <EnableLLVM>false</EnableLLVM>
     <AndroidEnableProfiledAot>false</AndroidEnableProfiledAot>
     <BundleAssemblies>false</BundleAssemblies>
+    <AndroidKeyStore>true</AndroidKeyStore>
+    <AndroidSigningKeyStore>C:\Users\User\Desktop\key\sign_me.jks</AndroidSigningKeyStore>
+    <AndroidSigningStorePass>newdo31</AndroidSigningStorePass>
+    <AndroidSigningKeyAlias>key0</AndroidSigningKeyAlias>
+    <AndroidSigningKeyPass>newdo3131</AndroidSigningKeyPass>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
