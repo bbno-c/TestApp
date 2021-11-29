@@ -89,7 +89,10 @@ namespace TestApp
         {
             string inputJsonString = Entry2.Text;
             var inputJson = JsonConvert.DeserializeObject<PropertiesJson>(inputJsonString);
-            string encoded = WebUtility.UrlEncode(inputJsonString);
+
+            inputJson.platform = Picker1.SelectedItem.ToString();
+
+            string encoded = WebUtility.UrlEncode(JsonConvert.SerializeObject(inputJson));
 
             //HttpContent content = new StringContent(encoded, Encoding.UTF8, "application/json");
             HttpRequestMessage request = new()
@@ -149,5 +152,7 @@ namespace TestApp
         {
             popup();
         }
+
+        
     }
 }

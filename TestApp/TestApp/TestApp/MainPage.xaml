@@ -7,8 +7,18 @@
         <StackLayout>
             <StackLayout Orientation="Vertical">
                 <Entry x:Name="Entry1"></Entry>
-                <Editor x:Name="Entry2" AutoSize="TextChanges"></Editor>
-                <Button Text="Apply" Clicked="BtnSend_Clicked"></Button>
+                <Editor x:Name="Entry2" AutoSize="TextChanges" IsVisible="true"></Editor>
+
+                <Picker Title="Select a platform" x:Name="Picker1"
+                        TitleColor="Red"
+                        >
+			        <Picker.Items>
+				        <x:String>ios</x:String>
+				        <x:String>android</x:String>
+			        </Picker.Items>
+		        </Picker>
+
+            <Button Text="Apply" BackgroundColor="White" Clicked="BtnSend_Clicked"></Button>
             </StackLayout>
 
         </StackLayout>
@@ -26,7 +36,7 @@
 
         </StackLayout>
 
-        <Button x:Name="btnClose" IsVisible="False" Text="X" Clicked="BtnClose_Clicked" WidthRequest="50" HeightRequest="50" HorizontalOptions="Center" VerticalOptions="Start"></Button>
+        <Button x:Name="btnClose" BackgroundColor="White" IsVisible="False" Text="X" Clicked="BtnClose_Clicked" WidthRequest="50" HeightRequest="50" HorizontalOptions="Center" VerticalOptions="End"></Button>
 
     </Grid>
 </ContentPage>
