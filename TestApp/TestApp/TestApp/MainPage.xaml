@@ -7,7 +7,7 @@
         <StackLayout>
             <StackLayout Orientation="Vertical">
                 <Entry x:Name="Entry1"></Entry>
-                <Editor x:Name="Entry2" AutoSize="TextChanges" IsVisible="false"></Editor>
+                <Editor x:Name="Entry2" AutoSize="TextChanges" IsVisible="true"></Editor>
 
                 <Picker Title="Select a platform" x:Name="Picker1"
                         TitleColor="Red"

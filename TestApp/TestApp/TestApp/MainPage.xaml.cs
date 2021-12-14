@@ -12,6 +12,8 @@ using System.Text;
 using System.Web;
 using System.Net;
 using System.Threading.Tasks;
+using Plugin.Permissions;
+using Plugin.Permissions.Abstractions;
 
 namespace TestApp
 {
@@ -26,7 +28,7 @@ namespace TestApp
         public string platform { get; set; }
         public string[] installed_games { get; set; }
 
-        private readonly string _fileName = "sav.json";
+        private readonly string _fileName;
 
         public PropertiesJson()
         {
@@ -37,6 +39,7 @@ namespace TestApp
             payment_model = "freemium";
             platform = "android";
             installed_games = new string[] { };
+            _fileName = System.Environment.GetFolderPath(System.Environment.SpecialFolder.LocalApplicationData) + "/sav.json";
         }
 
         public void SaveToFile()
@@ -78,6 +81,8 @@ namespace TestApp
 
             On<iOS>().SetUseSafeArea(true);
 
+            hasPermission();
+
             var a = new PropertiesJson();
             a.LoadFromFile();
 
@@ -96,6 +101,13 @@ namespace TestApp
             inputJson.payment_model = Picker2.SelectedItem.ToString();
 
             string encoded = WebUtility.UrlEncode(JsonConvert.SerializeObject(inputJson));
+
+            inputJson.SaveToFile();
+
+            // Test save/load
+            //PropertiesJson load = new();
+            //load.LoadFromFile();
+            //await DisplayAlert("Loaded", JsonConvert.SerializeObject(load), "X");
 
             //HttpContent content = new StringContent(encoded, Encoding.UTF8, "application/json");
             HttpRequestMessage request = new()
@@ -157,6 +169,37 @@ namespace TestApp
             popup();
         }
 
+        private async void hasPermission()
+        {
+            try
+            {
+                var status = await CrossPermissions.Current.CheckPermissionStatusAsync<StoragePermission>();
+                if (status != PermissionStatus.Granted)
+                {
+                    if (await CrossPermissions.Current.ShouldShowRequestPermissionRationaleAsync(Permission.Location))
+                    {
+                        await DisplayAlert("Need storage", "Gunna need that storage", "OK");
+                    }
 
+                    status = await CrossPermissions.Current.RequestPermissionAsync<StoragePermission>();
+                }
+
+                if (status == PermissionStatus.Granted)
+                {
+                    //Query permission
+                    //return true;
+                }
+                else if (status != PermissionStatus.Unknown)
+                {
+                    //location denied
+                }
+            }
+            catch (Exception ex)
+            {
+                //Something went wrong
+                await DisplayAlert("Exception", ex.Message, "X");
+            }
+            //return false;
+        }
     }
 }
