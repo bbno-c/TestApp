@@ -27,6 +27,8 @@ namespace TestApp
         public string payment_model { get; set; }
         public string platform { get; set; }
         public string[] installed_games { get; set; }
+        public int launch_count { get; set; }
+        public string device { get; set; }
 
         private readonly string _fileName;
 
@@ -39,6 +41,9 @@ namespace TestApp
             payment_model = "freemium";
             platform = "android";
             installed_games = new string[] { };
+            launch_count = 0;
+            device = "tablet";
+
             _fileName = System.Environment.GetFolderPath(System.Environment.SpecialFolder.LocalApplicationData) + "/sav.json";
         }
 
@@ -67,6 +72,8 @@ namespace TestApp
             payment_model = temp.updated_at;
             platform = temp.updated_at;
             installed_games = temp.installed_games;
+            launch_count = temp.launch_count;
+            device = temp.device;
         }
     }
 
@@ -81,15 +88,24 @@ namespace TestApp
 
             On<iOS>().SetUseSafeArea(true);
 
-            hasPermission();
+            HasPermission();
 
             var a = new PropertiesJson();
             a.LoadFromFile();
+            //a.launch_count = ++a.launch_count;
+
+            if (Device.Idiom == TargetIdiom.Phone)
+            { a.device = "mobile"; }
+            else
+            { a.device = "tablet"; }
+            
+            a.SaveToFile();
 
             string jsonString = JsonConvert.SerializeObject(a, Formatting.Indented);
 
             Entry1.Text = "192.168.4.140:8000";
             Entry2.Text = jsonString;
+
         }
 
         private async void BtnSend_Clicked(object sender, EventArgs e)
@@ -137,7 +153,7 @@ namespace TestApp
                 };
 
                 WebView1.Source = htmlSource;
-                popup();
+                Popup();
             }
             catch (Exception ex)
             {
@@ -145,31 +161,28 @@ namespace TestApp
             }
         }
 
-        private void popup()
+        private void Popup()
         {
             if (!this.popuplayout.IsVisible)
             {
                 this.popuplayout.IsVisible = !this.popuplayout.IsVisible;
                 this.popuplayout.Scale = 1;
-
                 btnClose.IsVisible = true;
-                //OnAppearing();
             }
             else
             {
                 this.popuplayout.IsVisible = !this.popuplayout.IsVisible;
                 this.popuplayout.Scale = 0;
                 btnClose.IsVisible = false;
-                //OnDisappearing();
             }
         }
 
-        private async void BtnClose_Clicked(object sender, EventArgs e)
+        private void BtnClose_Clicked(object sender, EventArgs e)
         {
-            popup();
+            Popup();
         }
 
-        private async void hasPermission()
+        private async void HasPermission()
         {
             try
             {
@@ -186,20 +199,17 @@ namespace TestApp
 
                 if (status == PermissionStatus.Granted)
                 {
-                    //Query permission
-                    //return true;
+
                 }
                 else if (status != PermissionStatus.Unknown)
                 {
-                    //location denied
+
                 }
             }
             catch (Exception ex)
             {
-                //Something went wrong
                 await DisplayAlert("Exception", ex.Message, "X");
             }
-            //return false;
         }
     }
 }
